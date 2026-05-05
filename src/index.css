@@ -1,0 +1,255 @@
+@import url('./css/clash-grotesk.css');
+@import url('./css/clash-display.css');
+@import "tailwindcss";
+
+:root{
+    --background: #000000;
+
+    --font-ClashGrotesk-Extralight: 'ClashGrotesk-Extralight', system-ui, sans-serif;
+    --font-ClashGrotesk-Light: 'ClashGrotesk-Light', system-ui, sans-serif;
+    --font-ClashGrotesk-Regular: 'ClashGrotesk-Regular', system-ui, sans-serif;
+    --font-ClashGrotesk-Medium: 'ClashGrotesk-Medium', system-ui, sans-serif;
+    --font-ClashGrotesk-Semibold: 'ClashGrotesk-Semibold', system-ui, sans-serif;
+    --font-ClashGrotesk-Bold: 'ClashGrotesk-Bold', system-ui, sans-serif;
+    --font-ClashGrotesk-Variable: 'ClashGrotesk-Variable', system-ui, sans-serif;
+    --font-ClashDisplay-Extralight: 'ClashDisplay-Extralight', system-ui, sans-serif;
+    --font-ClashDisplay-Light: 'ClashDisplay-Light', system-ui, sans-serif;
+    --font-ClashDisplay-Regular: 'ClashDisplay-Regular', system-ui, sans-serif;
+    --font-ClashDisplay-Medium: 'ClashDisplay-Medium', system-ui, sans-serif;
+    --font-ClashDisplay-Semibold: 'ClashDisplay-Semibold', system-ui, sans-serif;
+    --font-ClashDisplay-Bold: 'ClashDisplay-Bold', system-ui, sans-serif;
+    --font-ClashDisplay-Variable: 'ClashDisplay-Variable', system-ui, sans-serif;
+    --newsletter-card-bg: linear-gradient(to bottom right, #050505e6 10%, #28282899 60%, #c8c8c833 100%);
+}
+
+html{
+    font-family: var(--font-ClashGrotesk-Regular);
+    background: var(--background);
+    color: #fff;
+}
+
+.font-ClashGrotesk-Extralight {
+    font-family: var(--font-ClashGrotesk-Extralight);
+}
+.font-ClashGrotesk-Light {
+    font-family: var(--font-ClashGrotesk-Light);
+}
+.font-ClashGrotesk-Medium {
+    font-family: var(--font-ClashGrotesk-Medium);
+}
+.font-ClashGrotesk-Semibold {
+    font-family: var(--font-ClashGrotesk-Semibold);
+}
+.font-ClashGrotesk-Bold {
+    font-family: var(--font-ClashGrotesk-Bold);
+}
+.font-ClashGrotesk {
+    font-family: var(--font-ClashGrotesk-Regular);
+}
+.font-ClashDisplay {
+    font-family: var(--font-ClashDisplay-Regular);
+}
+.font-ClashDisplay-Extralight {
+    font-family: var(--font-ClashDisplay-Extralight);
+}
+.font-ClashDisplay-Light {
+    font-family: var(--font-ClashDisplay-Light);
+}
+.font-ClashDisplay-Regular {
+    font-family: var(--font-ClashDisplay-Regular);
+}
+.font-ClashDisplay-Medium {
+    font-family: var(--font-ClashDisplay-Medium);
+}
+.font-ClashDisplay-Semibold {
+    font-family: var(--font-ClashDisplay-Semibold);
+}
+.font-ClashDisplay-Bold {
+    font-family: var(--font-ClashDisplay-Bold);
+}
+
+
+.footer-bg{
+    background: linear-gradient(270deg, #121212 0%, #0B0B0B 100%);
+}
+
+.top-footer-bg{
+    background: var(--newsletter-card-bg, linear-gradient(to bottom right, rgba(5, 5, 5, 0.9) 10%, rgba(40, 40, 40, 0.6) 60%, rgba(200, 200, 200, 0.2) 100%))
+}
+
+.footer-top-border{
+    background: linear-gradient(90deg, #0C0C0C 0%, #202020 25.96%, #0C0C0C 51.44%, #202020 77.88%, #0C0C0C 100%);
+}
+
+
+.glow-mask {
+    /* Standard mask property */
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    mask-composite: exclude;
+
+    /* Webkit prefix for Safari/Chrome */
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+}
+
+.gradient-text-pod {
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(90deg, #fff 0%, #f5c6c2 8%, #f0908a 18%, #ff4343 35%, #e8635c 50%, #f5c6c2 65%, #fff 78%, #f0908a 90%, #ff4343 100%) 0 0 / 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: 4s ease-in-out infinite gradientShift;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+.gradient-text-flow {
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 12px rgba(255, 80, 80, 0.25);
+    background: linear-gradient(90deg,
+            #ffffff 0%,
+            #f5c6c2 10%,
+            #ff4343 25%,
+            #ffffff 40%,
+            #5db4da 55%,
+            #7ecbee 70%,
+            #ffffff 85%,
+            #ff4343 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: gradientFlow 4s linear infinite;
+}
+
+.stripBtn{
+
+    background: linear-gradient(135deg, #b4b4b466 0%, #3c3c3c26 30%, #2828280d 50%, #3c3c3c26 70%, #b4b4b466 100%);
+        border-radius: 999px;
+        padding: 11px;
+        position: relative;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-scroll{
+    animation: scroll 10s linear infinite;
+}
+.animate-scroll1 {
+    animation: scroll 10s linear infinite;
+}
+
+.perspective {
+    perspective: 1000px;
+}
+
+@keyframes flipTop {
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@keyframes flipBottom {
+    0% {
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+.animate-flip-top {
+    animation: flipTop 0.3s ease-in forwards;
+}
+
+.animate-flip-bottom {
+    animation: flipBottom 0.3s ease-out forwards;
+}
+
+/* why  hero section*/
+.gradText{
+    background: linear-gradient(90deg, #ff0000 0%, #ff5c5c 34.14%, #ff5c5c 61.06%, #ff0000 100%) text;
+        -webkit-text-fill-color: transparent;
+}
+
+
+.gradTextBtn{
+    background: linear-gradient(180deg, #FFFFFF 28.85%, #00C40D 100%) text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: 0px 0px 27.7px 0px #4C0000;
+    border: 1px solid #FFB2B2;
+}
+
+.gradTextBtn1{
+    border: 1px solid #FFB2B2;
+    box-shadow: 0px 0px 27.7px 0px #4C0000;
+    backdrop-filter: blur(44px);
+    background: 
+        linear-gradient(#64000066 1px, transparent 1px),
+        linear-gradient(90deg, #64000066 1px, transparent 1px),
+        radial-gradient(ellipse 80% 90% at 50% 110%,
+            #c4000099 0%,
+            #64000040 45%,
+            transparent 70%);
+    background-size: 6px 6px, 6px 6px, cover;
+}
+.gradText1{
+    background: linear-gradient(180deg, #FFFFFF 28.85%, #FF6B6B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+.gradTextBtn2{
+    border: 1px solid #94FF94;
+    box-shadow: 0px 0px 27.7px 0px #024602B8;
+    backdrop-filter: blur(44.09px);
+    background: 
+        linear-gradient(rgba(0, 180, 20, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 180, 20, 0.07) 1px, transparent 1px),
+        radial-gradient(ellipse 80% 90% at 50% 110%,
+            #00c40d8c 0%,
+            #00640840 45%,
+            transparent 70%);
+    background-size: 6px 6px, 6px 6px, cover;
+}
+.gradText2{
+    background: linear-gradient(180deg, #FFFFFF 28.85%, #00C40D 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.grad-black-btn{
+    background: linear-gradient(90deg, #111111 0%, rgba(119, 119, 119, 0.03) 100%);
+}
+
+
+.readmore{
+    border: 1px solid;
+            border-image-source: linear-gradient(90deg, #FFFFFF 0%, #484848 100%);
+}
