@@ -42,10 +42,11 @@ const Signup = () => {
     setErrorMessage(null);
     setSocialLoading(provider);
     try {
+      const callbackUrl = `${window.location.origin}/auth/setup`;
       const response =
         provider === "google"
-          ? await authAPI.getGoogleUrl()
-          : await authAPI.getAppleUrl();
+          ? await authAPI.getGoogleUrl(callbackUrl)
+          : await authAPI.getAppleUrl(callbackUrl);
 
       window.location.href = response.url;
     } catch (error) {

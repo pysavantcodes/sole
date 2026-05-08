@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Layout from "../components/layout/Layout";
 import { AuthProvider } from "../context/AuthContext";
@@ -72,6 +73,17 @@ export default async function RootLayout({
       <body>
         <AuthProvider initialToken={initialToken} initialUser={initialUser}>
           <NextTopLoader color="#ffffff" showSpinner={false} crawlSpeed={220} height={2} />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#1a1a1a",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.08)",
+                fontSize: "13px",
+              },
+            }}
+          />
           <Layout>{children}</Layout>
         </AuthProvider>
       </body>

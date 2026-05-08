@@ -59,8 +59,11 @@ const AccountLayout = ({
 
         <section className="px-4 py-8 sm:px-8 lg:px-12 xl:px-20">
           <div className="grid gap-5 lg:grid-cols-[210px_1fr] xl:grid-cols-[230px_1fr]">
-            <aside className="rounded-2xl border border-white/10 bg-[#191919] p-3 lg:sticky lg:top-24 lg:h-fit lg:bg-transparent lg:border-0 lg:p-0">
-              <nav className="grid gap-2">
+            <aside className="min-w-0 lg:sticky lg:top-24 lg:h-fit">
+              <nav
+                className="flex w-full gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:gap-2 lg:overflow-visible lg:pb-0"
+                aria-label="Account navigation"
+              >
                 {menuItems.map((item) => {
                   const isActive = item.key === activeTab;
                   const Icon = item.icon;
@@ -68,13 +71,13 @@ const AccountLayout = ({
                     <Link
                       key={item.label}
                       href={item.href}
-                      className={`rounded-full px-4 py-2.5 text-xs sm:text-sm transition ${
+                      className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-xs sm:text-sm transition lg:shrink lg:whitespace-normal ${
                         isActive
-                          ? "border border-white/50 bg-[#191919] text-white"
-                          : "text-white/60 hover:bg-white/5 hover:text-white"
+                          ? "border-white/60 bg-[#1f1f1f] text-white"
+                          : "border-white/10 bg-[#161616] text-white/60 hover:bg-white/5 hover:text-white lg:border-transparent lg:bg-transparent"
                       }`}
                     >
-                      <span className="inline-flex items-center gap-3">
+                      <span className="inline-flex items-center gap-2">
                         <Icon className="text-sm" />
                         {item.label}
                       </span>
@@ -105,7 +108,7 @@ const AccountLayout = ({
         </section>
       </div>
       {showLogoutConfirm ? (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4">
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4">
           <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#191919] p-5">
             <h3 className="font-ClashGrotesk-Semibold text-lg uppercase">
               Confirm Logout

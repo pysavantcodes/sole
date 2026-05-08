@@ -37,10 +37,14 @@ const Login = () => {
     setErrorMessage(null);
     setSocialLoading(provider);
     try {
+      const from = searchParams.get("from");
+      const callbackUrl = `${window.location.origin}/auth/setup${
+        from && from.startsWith("/") ? `?from=${encodeURIComponent(from)}` : ""
+      }`;
       const response =
         provider === "google"
-          ? await authAPI.getGoogleUrl()
-          : await authAPI.getAppleUrl();
+          ? await authAPI.getGoogleUrl(callbackUrl)
+          : await authAPI.getAppleUrl(callbackUrl);
 
       window.location.href = response.url;
     } catch (error) {

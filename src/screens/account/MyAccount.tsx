@@ -2,28 +2,36 @@
 
 import { FiMail } from "react-icons/fi";
 import { Loader } from "lucide-react";
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import AccountLayout from "../../components/sections/account/AccountLayout";
 import { authAPI } from "../../api";
 import { useAuth } from "../../context/AuthContext";
 
 const MyAccount = () => {
-  const { user, setAuthUser } = useAuth();
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { user, isAuthenticated, setAuthUser, logout } = useAuth();
+  const [name, setName] = useState(user?.name ?? "");
+  const [username, setUsername] = useState(user?.username ?? "");
+  const [phone, setPhone] = useState(user?.phone ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [loading, setLoading] = useState(!user);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login?from=/account");
+      return;
+    }
+
+    let cancelled = false;
     const loadDetails = async () => {
       try {
-        setLoading(true);
         setError("");
         const response = await authAPI.getDetails();
+        if (cancelled) return;
         const detailsUser = response.data.user;
         setName(detailsUser.name ?? "");
         setUsername(detailsUser.username ?? "");
@@ -31,26 +39,27 @@ const MyAccount = () => {
         setEmail(detailsUser.email ?? "");
         setAuthUser(detailsUser);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Unable to load your details.",
-        );
+        if (cancelled) return;
+        const message =
+          err instanceof Error ? err.message : "Unable to load your details.";
+        if (/unauthenticated|unauthorized/i.test(message)) {
+          await logout();
+          router.replace("/login?from=/account");
+          return;
+        }
+        // If we already have user data from context, keep the form usable.
+        if (!user) setError(message);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     void loadDetails();
-  }, [setAuthUser]);
-
-  const { firstName, lastName } = useMemo(() => {
-    const full = name.trim();
-    if (!full) return { firstName: "", lastName: "" };
-    const parts = full.split(/\s+/);
-    return {
-      firstName: parts[0] ?? "",
-      lastName: parts.slice(1).join(" "),
+    return () => {
+      cancelled = true;
     };
-  }, [user?.name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,7 +115,7 @@ const MyAccount = () => {
               <input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-2.5 text-xs sm:text-sm outline-none"
+                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-3 text-base sm:py-2.5 sm:text-sm outline-none"
               />
             </div>
 
@@ -117,7 +126,7 @@ const MyAccount = () => {
               <input
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-2.5 text-xs sm:text-sm outline-none"
+                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-3 text-base sm:py-2.5 sm:text-sm outline-none"
               />
             </div>
 
@@ -128,7 +137,7 @@ const MyAccount = () => {
               <input
                 value={email}
                 readOnly
-                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-2.5 text-xs sm:text-sm outline-none"
+                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-3 text-base sm:py-2.5 sm:text-sm outline-none"
               />
             </div>
 
@@ -139,7 +148,7 @@ const MyAccount = () => {
               <input
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-2.5 text-xs sm:text-sm outline-none"
+                className="w-full rounded-xl border border-white/15 bg-[#191919] px-4 py-3 text-base sm:py-2.5 sm:text-sm outline-none"
               />
             </div>
 

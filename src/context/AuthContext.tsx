@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { authAPI, type LoginInput, type RegisterInput, type User } from "../api";
+import { authCookies } from "../api/cookies";
 
 interface AuthContextValue {
   user: User | null;
@@ -19,6 +20,7 @@ interface AuthContextValue {
   register: (payload: RegisterInput) => Promise<{ message?: string }>;
   logout: () => Promise<void>;
   setAuthUser: (nextUser: User | null) => void;
+  setSession: (token: string, user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -59,6 +61,13 @@ export const AuthProvider = ({
     setUser(nextUser);
   }, []);
 
+  const setSession = useCallback((nextToken: string, nextUser: User) => {
+    authCookies.setToken(nextToken);
+    authCookies.setUser(nextUser);
+    setToken(nextToken);
+    setUser(nextUser);
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -69,8 +78,9 @@ export const AuthProvider = ({
       register,
       logout,
       setAuthUser,
+      setSession,
     }),
-    [user, token, isBootstrapping, login, register, logout, setAuthUser],
+    [user, token, isBootstrapping, login, register, logout, setAuthUser, setSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

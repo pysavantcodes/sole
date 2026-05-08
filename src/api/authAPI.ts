@@ -138,16 +138,18 @@ export const authAPI = {
       data: toFormData(payload),
     }),
 
-  getGoogleUrl: () =>
+  getGoogleUrl: (redirect_url?: string) =>
     apiRequest<{ status: string; url: string }>({
       url: "/auth/google",
       method: "GET",
+      params: redirect_url ? { redirect_url } : undefined,
     }),
 
-  getAppleUrl: () =>
+  getAppleUrl: (redirect_url?: string) =>
     apiRequest<{ status: string; url: string }>({
       url: "/auth/apple",
       method: "GET",
+      params: redirect_url ? { redirect_url } : undefined,
     }),
 
   authenticateGoogle: (google_access_token: string, google_id: string) =>

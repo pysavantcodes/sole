@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiImage, FiSave } from "react-icons/fi";
 import { HiCheck } from "react-icons/hi";
+import toast from "react-hot-toast";
 import { ecommerceAPI } from "../api";
 import { PiMedalLight } from "react-icons/pi";
 import GlowingButton from "../components/ui/GlowingButton";
@@ -51,8 +52,7 @@ const FALLBACK_DISPLAY: PodType = {
   description:
     "SoleCore Intelligent Motion & Lighting Engine. Real-time coordination for motion, lighting, and security.",
   price: 199,
-  image:
-    "https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fonyx.gif?alt=media&token=fac8a589-cfcb-4078-8327-afdeb1a84e07",
+  image: "",
 };
 
 const buildAutoGradient = (hex?: string) => {
@@ -108,17 +108,13 @@ type ProductApiData = {
 
 const applyDataToState = (data: ProductApiData) => {
   const pods: PodType[] =
-    (data.pod_types ?? []).map((pod, index) => ({
+    (data.pod_types ?? []).map((pod) => ({
       id: pod.id,
       name: pod.name,
       description: pod.description ?? "",
       price: Number(pod.price ?? 0),
       image:
-        pod.image_url && pod.image_url.trim().length > 0
-          ? pod.image_url
-          : index === 0
-            ? "https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fonyx.gif?alt=media&token=fac8a589-cfcb-4078-8327-afdeb1a84e07"
-            : "https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fhero.gif?alt=media&token=69b3a9ce-e2a7-495c-a137-54e93ac2be10",
+        pod.image_url && pod.image_url.trim().length > 0 ? pod.image_url : "",
     })) ?? [];
 
   const mappedFinishes: Finish[] =
@@ -166,7 +162,6 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
   const [loading, setLoading] = useState(!initialState);
   const [error, setError] = useState<string | null>(null);
   const [cardError, setCardError] = useState<string | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [title, setTitle] = useState(
     initialState?.title ?? "RESERVE SOLE POD OG",
@@ -209,15 +204,6 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
   );
   const [hydrated, setHydrated] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const toastTimeoutRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (toastTimeoutRef.current) {
-        window.clearTimeout(toastTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const applyNormalizedWithSaved = (
     normalized: ReturnType<typeof applyDataToState>,
@@ -246,15 +232,11 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
       savedScentValid
     );
 
-    setDisplay(
-      useSaved ? saved!.pod_type_id : (normalized.pods[0]?.id ?? ""),
-    );
+    setDisplay(useSaved ? saved!.pod_type_id : (normalized.pods[0]?.id ?? ""));
     setFinish(
       useSaved ? saved!.variant_id : (normalized.finishes[0]?.id ?? ""),
     );
-    setScent(
-      useSaved ? saved!.scent_id : (normalized.scents[0]?.id ?? ""),
-    );
+    setScent(useSaved ? saved!.scent_id : (normalized.scents[0]?.id ?? ""));
     setSelectedAddOnIds(
       useSaved
         ? (saved!.add_on_ids ?? []).filter((id) =>
@@ -382,13 +364,7 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
     ) {
       const msg = "Enter at least one character for your Sole Card.";
       setCardError(msg);
-      setToastMessage(msg);
-      if (toastTimeoutRef.current) {
-        window.clearTimeout(toastTimeoutRef.current);
-      }
-      toastTimeoutRef.current = window.setTimeout(() => {
-        setToastMessage(null);
-      }, 2200);
+      toast.error(msg);
       return;
     }
     setCardError(null);
@@ -472,12 +448,23 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
         <div className="flex px-4  sm:px-8 lg:px-12 xl:px-20 flex-col gap-8 lg:flex-row lg:items-start bg-[#040404] py-15">
           <div className="lg:w-[62%] lg:sticky lg:top-24 self-start">
             <div className="rounded-2xl border-3 border-white/15 bg-[#070707] p-3">
-              <div className="rounded-xl bg-black">
-                <img
-                  src={activeDisplay.image}
-                  alt={activeDisplay.name}
-                  className="mx-auto w-full max-h-[400px] object-cover rounded-xl"
-                />
+              <div className="rounded-xl bg-black overflow-hidden">
+                {activeDisplay.image ? (
+                  <img
+                    src={activeDisplay.image}
+                    alt={activeDisplay.name}
+                    className="mx-auto w-full max-h-[400px] object-cover rounded-xl"
+                  />
+                ) : (
+                  <div className="flex aspect-[4/3] w-full max-h-[400px] flex-col items-center justify-center gap-3 rounded-xl bg-gradient-to-br from-[#161616] to-[#0a0a0a] text-white/35">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                      <FiImage className="text-2xl" />
+                    </div>
+                    <p className="text-[11px] uppercase tracking-[0.25em]">
+                      Image not available
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -491,11 +478,6 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
 
           <aside className="lg:w-[38%] space-y-14 lg:px-12">
             <div>
-              {toastMessage ? (
-                <div className="fixed right-4 top-20 z-[90] rounded-lg border border-red-300/30 bg-[#1d1111] px-4 py-2 text-xs text-red-200 shadow-[0_10px_30px_rgba(0,0,0,0.45)]">
-                  {toastMessage}
-                </div>
-              ) : null}
               <h2 className="my-3 font-ClashGrotesk-Bold text-base sm:text-lg uppercase">
                 CHOOSE YOUR BEST DISPLAY
               </h2>
@@ -634,9 +616,30 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
                           fill="currentColor"
                           aria-hidden
                         >
-                          <rect x="0" y="9" width="2.2" height="5" rx="0.6" opacity="0.85" />
-                          <rect x="3.5" y="6" width="2.2" height="8" rx="0.6" opacity="0.85" />
-                          <rect x="7" y="3" width="2.2" height="11" rx="0.6" opacity="0.85" />
+                          <rect
+                            x="0"
+                            y="9"
+                            width="2.2"
+                            height="5"
+                            rx="0.6"
+                            opacity="0.85"
+                          />
+                          <rect
+                            x="3.5"
+                            y="6"
+                            width="2.2"
+                            height="8"
+                            rx="0.6"
+                            opacity="0.85"
+                          />
+                          <rect
+                            x="7"
+                            y="3"
+                            width="2.2"
+                            height="11"
+                            rx="0.6"
+                            opacity="0.85"
+                          />
                         </svg>
                         <p className="font-ClashGrotesk-Bold text-[10px] uppercase tracking-[0.18em]">
                           SOLE <span className="text-white/55">CAPSULE</span>
