@@ -2,22 +2,24 @@ import type { Metadata } from "next";
 import Home from "../screens/Home";
 
 export const metadata: Metadata = {
-  title: "Sole Capsule Home",
+  title: "Sole Capsule",
   description:
     "Discover SOLE Capsule: premium smart sneaker displays, ecosystem tools, and early-access reservation opportunities.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "SOLE Capsule Home",
+    title: "SOLE Capsule",
     description:
       "Discover SOLE Capsule: premium smart sneaker displays, ecosystem tools, and early-access reservation opportunities.",
     url: "/",
-    images: [{ url: "/frame.png", width: 1200, height: 630, alt: "SOLE Capsule Home" }],
+    images: [
+      { url: "/frame.png", width: 1200, height: 630, alt: "SOLE Capsule" },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SOLE Capsule Home",
+    title: "SOLE Capsule",
     description:
       "Discover SOLE Capsule: premium smart sneaker displays, ecosystem tools, and early-access reservation opportunities.",
     images: ["/frame.png"],
