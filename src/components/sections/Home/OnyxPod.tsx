@@ -60,7 +60,7 @@ const OnyxPod = ({ onChange }: ToggleProps) => {
           className="max-w-xl md:max-w-2xl lg:max-w-3xl"
         >
           <img
-            src="/onyx.gif"
+            src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fonyx.gif?alt=media&token=fac8a589-cfcb-4078-8327-afdeb1a84e07"
             alt="Onyx Pod"
             className="w-full h-auto object-contain"
           />

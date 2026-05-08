@@ -129,7 +129,7 @@ const TheShift = () => {
                     overflow-hidden"
         >
           <motion.img
-            src="/shift.gif"
+            src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fshift.gif?alt=media&token=04ac444d-3c10-4fc5-948a-918ea0a0d2de"
             alt="Shift visual"
             style={{ y }}
             className="absolute inset-0 w-full h-[120%] object-cover"

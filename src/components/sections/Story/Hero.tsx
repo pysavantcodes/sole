@@ -96,7 +96,7 @@ const Hero = () => {
             {/* GIF */}
             <div className="w-full flex justify-center">
               <img
-                src="/onyx.gif"
+                src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fonyx.gif?alt=media&token=fac8a589-cfcb-4078-8327-afdeb1a84e07"
                 alt="Hero"
                 className="w-full max-h-[40vh] sm:max-h-[50vh] object-contain"
               />

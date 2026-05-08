@@ -1,13 +1,14 @@
+"use client";
+
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { authAPI, authCookies, type LoginInput, type RegisterInput, type User } from "../api";
+import { authAPI, type LoginInput, type RegisterInput, type User } from "../api";
 
 interface AuthContextValue {
   user: User | null;
@@ -16,24 +17,26 @@ interface AuthContextValue {
   isBootstrapping: boolean;
   login: (payload: LoginInput) => Promise<void>;
   register: (payload: RegisterInput) => Promise<{ message?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
+  setAuthUser: (nextUser: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isBootstrapping, setIsBootstrapping] = useState(true);
+type AuthProviderProps = {
+  children: ReactNode;
+  initialUser?: User | null;
+  initialToken?: string | null;
+};
 
-  useEffect(() => {
-    const savedToken = authCookies.getToken();
-    const savedUser = authCookies.getUser();
-
-    setToken(savedToken);
-    setUser(savedUser);
-    setIsBootstrapping(false);
-  }, []);
+export const AuthProvider = ({
+  children,
+  initialUser = null,
+  initialToken = null,
+}: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(initialUser);
+  const [token, setToken] = useState<string | null>(initialToken);
+  const [isBootstrapping, setIsBootstrapping] = useState(false);
 
   const login = useCallback(async (payload: LoginInput) => {
     const response = await authAPI.login(payload);
@@ -46,10 +49,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { message: response.message };
   }, []);
 
-  const logout = useCallback(() => {
-    void authAPI.logout();
+  const logout = useCallback(async () => {
+    await authAPI.logout();
     setToken(null);
     setUser(null);
+  }, []);
+
+  const setAuthUser = useCallback((nextUser: User | null) => {
+    setUser(nextUser);
   }, []);
 
   const value = useMemo<AuthContextValue>(
@@ -61,8 +68,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       login,
       register,
       logout,
+      setAuthUser,
     }),
-    [user, token, isBootstrapping, login, register, logout],
+    [user, token, isBootstrapping, login, register, logout, setAuthUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,7 +1,9 @@
+"use client";
+
 import { useState, type ReactNode } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Loader } from "lucide-react";
 import GlowingButton from "../../ui/GlowingButton";
 
@@ -149,7 +151,7 @@ const AuthPanel = ({
 
               {forgotPassword ? (
                 <div className="text-right text-xs sm:text-sm text-white/70">
-                  <Link to="/forgot-password" className="hover:text-white">
+                  <Link href="/forgot-password" className="hover:text-white">
                     Forgot Password?
                   </Link>
                 </div>

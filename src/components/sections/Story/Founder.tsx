@@ -45,7 +45,7 @@ function Founder() {
                     overflow-hidden rounded-xl"
         >
           <motion.img
-            src="/gifX.gif"
+            src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2FgifX.gif?alt=media&token=933f3b1a-cf8a-40d8-b107-b4e85e1484f0"
             alt="Founder story"
             initial={{ scale: 1.05, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}

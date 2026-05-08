@@ -96,7 +96,7 @@ const Hero = () => {
                         my-10 sm:my-12 overflow-hidden"
         >
           <motion.img
-            src="/gifX.gif"
+            src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2FgifX.gif?alt=media&token=933f3b1a-cf8a-40d8-b107-b4e85e1484f0"
             alt="Hero"
             style={{ y }}
             className="absolute inset-0 w-full h-[120%] object-cover"

@@ -1,6 +1,5 @@
 @import url('./css/clash-grotesk.css');
 @import url('./css/clash-display.css');
-@import "tailwindcss";
 
 :root{
     --background: #000000;

@@ -34,6 +34,19 @@ export interface ResetPasswordInput {
   password_confirmation: string;
 }
 
+export interface UserDetailsResponse {
+  status: string;
+  data: {
+    user: AuthPayload["user"];
+  };
+}
+
+export interface UpdateProfileInput {
+  name: string;
+  username: string;
+  phone: string;
+}
+
 const toFormData = <T extends object>(payload: T) => {
   const formData = new FormData();
   Object.entries(payload as Record<string, unknown>).forEach(([key, value]) => {
@@ -108,6 +121,19 @@ export const authAPI = {
   resetPassword: (payload: ResetPasswordInput) =>
     apiRequest<ApiEnvelope<unknown>>({
       url: "/password/reset",
+      method: "POST",
+      data: toFormData(payload),
+    }),
+
+  getDetails: () =>
+    apiRequest<UserDetailsResponse>({
+      url: "/details",
+      method: "GET",
+    }),
+
+  updateProfileDetails: (payload: UpdateProfileInput) =>
+    apiRequest<ApiEnvelope<unknown>>({
+      url: "/profile/details/update",
       method: "POST",
       data: toFormData(payload),
     }),

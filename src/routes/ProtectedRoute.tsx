@@ -1,10 +1,20 @@
-import { Navigate, useLocation } from "react-router-dom";
+"use client";
+
 import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated, isBootstrapping } = useAuth();
-  const location = useLocation();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isBootstrapping && !isAuthenticated) {
+      router.replace(`/login?from=${encodeURIComponent(pathname ?? "/account")}`);
+    }
+  }, [isAuthenticated, isBootstrapping, pathname, router]);
 
   if (isBootstrapping) {
     return (
@@ -14,9 +24,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
-  }
+  if (!isAuthenticated) return null;
 
   return <>{children}</>;
 };

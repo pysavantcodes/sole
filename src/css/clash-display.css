@@ -18,7 +18,7 @@
 */
 @font-face {
   font-family: 'ClashDisplay-Extralight';
-  src: url('../assets/') format('woff2'),
+  src: url('../assets/fonts/ClashDisplay-Extralight.woff2') format('woff2'),
        url('../assets/fonts/ClashDisplay-Extralight.woff') format('woff'),
        url('../assets/fonts/ClashDisplay-Extralight.ttf') format('truetype');
   font-weight: 200;

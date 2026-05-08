@@ -1,9 +1,19 @@
-import { Navigate } from "react-router-dom";
+"use client";
+
 import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const PublicOnlyRoute = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated, isBootstrapping } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isBootstrapping && isAuthenticated) {
+      router.replace("/account");
+    }
+  }, [isAuthenticated, isBootstrapping, router]);
 
   if (isBootstrapping) {
     return (
@@ -13,9 +23,7 @@ const PublicOnlyRoute = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/account" replace />;
-  }
+  if (isAuthenticated) return null;
 
   return <>{children}</>;
 };

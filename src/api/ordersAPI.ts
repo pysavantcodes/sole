@@ -13,10 +13,17 @@ export interface UserOrder {
   total_amount: string;
   status: string;
   delivery_status: string;
+  created_at?: string;
+  metadata?: {
+    tracking_number?: string;
+    tracking_url?: string;
+    customer_phone?: string;
+    [key: string]: string | undefined;
+  } | null;
 }
 
 export const ordersAPI = {
-  getUserOrders: (perPage = 10) =>
+  getUserOrders: (perPage = 10, page = 1) =>
     apiRequest<{
       status: string;
       data: {
@@ -26,6 +33,6 @@ export const ordersAPI = {
     }>({
       url: "/ecommerce/sole-pod/orders",
       method: "GET",
-      params: { per_page: perPage },
+      params: { per_page: perPage, page },
     }),
 };

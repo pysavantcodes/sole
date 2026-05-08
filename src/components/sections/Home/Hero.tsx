@@ -101,7 +101,7 @@ const Hero = () => {
         {/* Hero Image Section */}
         <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[85vh] overflow-hidden">
           <motion.img
-            src="/hero.gif"
+            src="https://firebasestorage.googleapis.com/v0/b/sole-capsule-c8752.firebasestorage.app/o/web-gifs%2Fhero.gif?alt=media&token=69b3a9ce-e2a7-495c-a137-54e93ac2be10"
             alt="Hero"
             style={{ y, scale }}
             initial={{ opacity: 0 }}
