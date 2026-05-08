@@ -117,10 +117,16 @@ const Navbar = () => {
         </div>
 
         {/* MOBILE */}
-        <div className="flex lg:hidden items-center gap-x-4 relative z-10">
+        <div className="flex lg:hidden items-center gap-x-3 relative z-10">
           {isAuthenticated ? (
-            <Link href="/account" className="hover:text-white/75">
-              <FiUser className="text-xl sm:text-2xl" />
+            <Link
+              href="/account"
+              className="flex max-w-35 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-white/90 hover:bg-white/10"
+            >
+              <FiUser className="text-sm shrink-0" />
+              <span className="text-xs truncate">
+                {user?.name?.trim().split(/\s+/)[0] ?? "Account"}
+              </span>
             </Link>
           ) : null}
           <button onClick={toggleMenu}>
