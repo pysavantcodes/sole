@@ -39,10 +39,12 @@ const PasswordInput = ({
   placeholder = "INPUT",
   value,
   onChange,
+  hasError,
 }: {
   placeholder?: string;
   value: string;
   onChange: (next: string) => void;
+  hasError?: boolean;
 }) => {
   const [show, setShow] = useState(false);
   return (
@@ -52,7 +54,9 @@ const PasswordInput = ({
         placeholder={placeholder}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-white/15 bg-[#171717] px-4 py-3 pr-12 text-sm text-white outline-none placeholder:text-white/20"
+        className={`w-full rounded-xl border bg-[#171717] px-4 py-3 pr-12 text-sm text-white outline-none placeholder:text-white/20 ${
+          hasError ? "border-red-400/60" : "border-white/15"
+        }`}
       />
       <button
         type="button"
@@ -63,6 +67,43 @@ const PasswordInput = ({
       </button>
     </div>
   );
+};
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const validateValues = (
+  fields: AuthField[],
+  values: AuthValues,
+): Record<string, string> => {
+  const errors: Record<string, string> = {};
+  fields.forEach((field) => {
+    const raw = values[field.name] ?? "";
+    const trimmed = raw.trim();
+    if (!trimmed) {
+      errors[field.name] = `${field.label.replace(/\s*\/\s*/g, " or ")} is required.`;
+      return;
+    }
+    if (field.type === "email" && !EMAIL_REGEX.test(trimmed)) {
+      errors[field.name] = "Enter a valid email address.";
+      return;
+    }
+    if (
+      field.type === "password" &&
+      field.name === "password" &&
+      raw.length < 8
+    ) {
+      errors[field.name] = "Password must be at least 8 characters.";
+    }
+  });
+  if (
+    fields.some((f) => f.name === "password_confirmation") &&
+    values.password &&
+    values.password_confirmation &&
+    values.password !== values.password_confirmation
+  ) {
+    errors.password_confirmation = "Passwords do not match.";
+  }
+  return errors;
 };
 
 const AuthPanel = ({
@@ -96,14 +137,23 @@ const AuthPanel = ({
       return acc;
     }, {} as AuthValues),
   );
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const setValue = (name: string, next: string) => {
     setValues((prev) => ({ ...prev, [name]: next }));
+    setFieldErrors((prev) => {
+      if (!prev[name]) return prev;
+      const { [name]: _removed, ...rest } = prev;
+      return rest;
+    });
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!onSubmit) return;
+    const errors = validateValues(fields, values);
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
     await onSubmit(values);
   };
 
@@ -121,32 +171,45 @@ const AuthPanel = ({
 
             <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                {fields.map((field) => (
-                  <div
-                    key={field.name}
-                    className={field.half ? "" : "md:col-span-2"}
-                  >
-                    <label className="mb-2 flex items-center gap-2 text-xs uppercase text-white/60">
-                      {field.icon}
-                      {field.label}
-                    </label>
-                    {field.type === "password" ? (
-                      <PasswordInput
-                        placeholder={field.placeholder}
-                        value={values[field.name] ?? ""}
-                        onChange={(next) => setValue(field.name, next)}
-                      />
-                    ) : (
-                      <input
-                        type={field.type ?? "text"}
-                        placeholder={field.placeholder ?? "INPUT"}
-                        value={values[field.name] ?? ""}
-                        onChange={(event) => setValue(field.name, event.target.value)}
-                        className="w-full rounded-xl border border-white/15 bg-[#171717] px-4 py-2.5 text-xs sm:text-sm text-white outline-none placeholder:text-white/20"
-                      />
-                    )}
-                  </div>
-                ))}
+                {fields.map((field) => {
+                  const fieldError = fieldErrors[field.name];
+                  return (
+                    <div
+                      key={field.name}
+                      className={field.half ? "" : "md:col-span-2"}
+                    >
+                      <label className="mb-2 flex items-center gap-2 text-xs uppercase text-white/60">
+                        {field.icon}
+                        {field.label}
+                      </label>
+                      {field.type === "password" ? (
+                        <PasswordInput
+                          placeholder={field.placeholder}
+                          value={values[field.name] ?? ""}
+                          onChange={(next) => setValue(field.name, next)}
+                          hasError={Boolean(fieldError)}
+                        />
+                      ) : (
+                        <input
+                          type={field.type ?? "text"}
+                          placeholder={field.placeholder ?? "INPUT"}
+                          value={values[field.name] ?? ""}
+                          onChange={(event) =>
+                            setValue(field.name, event.target.value)
+                          }
+                          className={`w-full rounded-xl border bg-[#171717] px-4 py-2.5 text-xs sm:text-sm text-white outline-none placeholder:text-white/20 ${
+                            fieldError ? "border-red-400/60" : "border-white/15"
+                          }`}
+                        />
+                      )}
+                      {fieldError ? (
+                        <p className="mt-1.5 text-[11px] text-red-400">
+                          {fieldError}
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
 
               {forgotPassword ? (
@@ -192,10 +255,10 @@ const AuthPanel = ({
                       type="button"
                       onClick={onGoogleClick}
                       disabled={socialLoadingProvider !== null}
-                      className="rounded-xl bg-[#1F1F1F] py-4 text-2xl text-white/90 hover:bg-[#2a2b30]"
+                      className="rounded-xl bg-[#1F1F1F] py-3 sm:py-4 text-lg sm:text-2xl text-white/90 hover:bg-[#2a2b30] disabled:opacity-60"
                     >
                       {socialLoadingProvider === "google" ? (
-                        <Loader className="mx-auto h-6 w-6 animate-spin" />
+                        <Loader className="mx-auto h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                       ) : (
                         <FaGoogle className="mx-auto" />
                       )}
@@ -204,10 +267,10 @@ const AuthPanel = ({
                       type="button"
                       onClick={onAppleClick}
                       disabled={socialLoadingProvider !== null}
-                      className="rounded-xl bg-[#1F1F1F] py-4 text-2xl text-white/90 hover:bg-[#2a2b30]"
+                      className="rounded-xl bg-[#1F1F1F] py-3 sm:py-4 text-lg sm:text-2xl text-white/90 hover:bg-[#2a2b30] disabled:opacity-60"
                     >
                       {socialLoadingProvider === "apple" ? (
-                        <Loader className="mx-auto h-6 w-6 animate-spin" />
+                        <Loader className="mx-auto h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
                       ) : (
                         <FaApple className="mx-auto" />
                       )}
