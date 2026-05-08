@@ -7,14 +7,33 @@ import AuthPanel, { type AuthValues } from "../components/sections/Auth/AuthPane
 import { authAPI } from "../api";
 
 const resetFields = [
-  { name: "email", label: "EMAIL", type: "email" as const, icon: <FiMail /> },
-  { name: "reset_code", label: "RESET CODE", type: "text" as const, icon: <FiMail /> },
-  { name: "password", label: "NEW PASSWORD", type: "password" as const, icon: <FiLock /> },
+  {
+    name: "email",
+    label: "EMAIL",
+    type: "email" as const,
+    icon: <FiMail />,
+    placeholder: "you@example.com",
+  },
+  {
+    name: "reset_code",
+    label: "RESET CODE",
+    type: "text" as const,
+    icon: <FiMail />,
+    placeholder: "6-digit code from email",
+  },
+  {
+    name: "password",
+    label: "NEW PASSWORD",
+    type: "password" as const,
+    icon: <FiLock />,
+    placeholder: "At least 8 characters",
+  },
   {
     name: "password_confirmation",
     label: "CONFIRM NEW PASSWORD",
     type: "password" as const,
     icon: <FiLock />,
+    placeholder: "Re-enter new password",
   },
 ];
 

@@ -36,7 +36,7 @@ interface AuthPanelProps {
 }
 
 const PasswordInput = ({
-  placeholder = "INPUT",
+  placeholder,
   value,
   onChange,
   hasError,
@@ -54,7 +54,7 @@ const PasswordInput = ({
         placeholder={placeholder}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className={`w-full rounded-xl border bg-[#171717] px-4 py-3 pr-12 text-sm text-white outline-none placeholder:text-white/20 ${
+        className={`w-full rounded-xl border bg-[#171717] px-4 py-3 pr-12 text-base sm:text-sm text-white outline-none placeholder:text-white/20 ${
           hasError ? "border-red-400/60" : "border-white/15"
         }`}
       />
@@ -192,12 +192,12 @@ const AuthPanel = ({
                       ) : (
                         <input
                           type={field.type ?? "text"}
-                          placeholder={field.placeholder ?? "INPUT"}
+                          placeholder={field.placeholder}
                           value={values[field.name] ?? ""}
                           onChange={(event) =>
                             setValue(field.name, event.target.value)
                           }
-                          className={`w-full rounded-xl border bg-[#171717] px-4 py-2.5 text-xs sm:text-sm text-white outline-none placeholder:text-white/20 ${
+                          className={`w-full rounded-xl border bg-[#171717] px-4 py-3 text-base sm:py-2.5 sm:text-sm text-white outline-none placeholder:text-white/20 ${
                             fieldError ? "border-red-400/60" : "border-white/15"
                           }`}
                         />
@@ -287,16 +287,60 @@ const AuthPanel = ({
 };
 
 export const loginFields: AuthField[] = [
-  { name: "email", label: "EMAIL / SOLECARD ID", type: "text", icon: <FiMail /> },
-  { name: "password", label: "PASSWORD", type: "password", icon: <FiLock /> },
+  {
+    name: "email",
+    label: "EMAIL / SOLECARD ID",
+    type: "text",
+    icon: <FiMail />,
+    placeholder: "you@example.com or SC-1048",
+  },
+  {
+    name: "password",
+    label: "PASSWORD",
+    type: "password",
+    icon: <FiLock />,
+    placeholder: "Enter your password",
+  },
 ];
 
 export const signupFields: AuthField[] = [
-  { name: "first_name", label: "FIRST NAME", type: "text", icon: <FiMail />, half: true },
-  { name: "last_name", label: "LAST NAME", type: "text", icon: <FiMail />, half: true },
-  { name: "email", label: "EMAIL", type: "email", icon: <FiMail /> },
-  { name: "password", label: "PASSWORD", type: "password", icon: <FiLock /> },
-  { name: "password_confirmation", label: "CONFIRM PASSWORD", type: "password", icon: <FiLock /> },
+  {
+    name: "first_name",
+    label: "FIRST NAME",
+    type: "text",
+    icon: <FiMail />,
+    half: true,
+    placeholder: "Jane",
+  },
+  {
+    name: "last_name",
+    label: "LAST NAME",
+    type: "text",
+    icon: <FiMail />,
+    half: true,
+    placeholder: "Doe",
+  },
+  {
+    name: "email",
+    label: "EMAIL",
+    type: "email",
+    icon: <FiMail />,
+    placeholder: "you@example.com",
+  },
+  {
+    name: "password",
+    label: "PASSWORD",
+    type: "password",
+    icon: <FiLock />,
+    placeholder: "At least 8 characters",
+  },
+  {
+    name: "password_confirmation",
+    label: "CONFIRM PASSWORD",
+    type: "password",
+    icon: <FiLock />,
+    placeholder: "Re-enter your password",
+  },
 ];
 
 export default AuthPanel;

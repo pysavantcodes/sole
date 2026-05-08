@@ -353,71 +353,71 @@ const Checkout = () => {
                 value={form.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 placeholder="Email"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
               <div className="grid grid-cols-2 gap-3">
                 <input
                   value={form.first_name}
                   onChange={(e) => handleChange("first_name", e.target.value)}
                   placeholder="First name"
-                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
                 />
                 <input
                   value={form.last_name}
                   onChange={(e) => handleChange("last_name", e.target.value)}
                   placeholder="Last name"
-                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
                 />
               </div>
               <input
                 value={form.country}
                 onChange={(e) => handleChange("country", e.target.value)}
                 placeholder="Country or region code (e.g. NG)"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
               <input
                 value={form.company}
                 onChange={(e) => handleChange("company", e.target.value)}
                 placeholder="Company (optional)"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
               <input
                 value={form.address}
                 onChange={(e) => handleChange("address", e.target.value)}
                 placeholder="Address"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
               <input
                 value={form.apartment}
                 onChange={(e) => handleChange("apartment", e.target.value)}
                 placeholder="Apartment (optional)"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
               <div className="grid grid-cols-3 gap-3">
                 <input
                   value={form.city}
                   onChange={(e) => handleChange("city", e.target.value)}
                   placeholder="City"
-                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
                 />
                 <input
                   value={form.state}
                   onChange={(e) => handleChange("state", e.target.value)}
                   placeholder="Province"
-                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
                 />
                 <input
                   value={form.postal_code}
                   onChange={(e) => handleChange("postal_code", e.target.value)}
                   placeholder="Postal code"
-                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                  className="h-12 rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
                 />
               </div>
               <input
                 value={form.phone}
                 onChange={(e) => handleChange("phone", e.target.value)}
                 placeholder="Phone"
-                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-sm outline-none focus:border-white/40"
+                className="h-12 w-full rounded-lg border border-white/12 bg-[#171717] px-4 text-base sm:text-sm outline-none focus:border-white/40"
               />
             </div>
 

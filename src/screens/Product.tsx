@@ -718,7 +718,7 @@ const Product = ({ initialData }: { initialData?: ProductApiData }) => {
                       }
                       onKeyDown={(e) => handleKeyDown(index, e.key)}
                       maxLength={1}
-                      className="h-9 rounded-md border border-white/15 bg-[#0e1014] text-center text-sm uppercase outline-none focus:border-white/70"
+                      className="h-10 rounded-md border border-white/15 bg-[#0e1014] text-center text-base sm:text-sm uppercase outline-none focus:border-white/70"
                     />
                   ) : null,
                 )}

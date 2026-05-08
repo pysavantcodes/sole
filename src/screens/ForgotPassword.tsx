@@ -7,7 +7,13 @@ import { FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 
 const forgotPasswordFields = [
-  { name: "email", label: "EMAIL", type: "email" as const, icon: <FiMail /> },
+  {
+    name: "email",
+    label: "EMAIL",
+    type: "email" as const,
+    icon: <FiMail />,
+    placeholder: "you@example.com",
+  },
 ];
 
 const ForgotPassword = () => {
